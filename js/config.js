@@ -12,8 +12,8 @@ window.CERTO_CONFIG = {
   brandNameEn: "Certo Native Recruiting",
 
   // 연락처 (실제 운영 정보로 교체하세요)
-  phoneDisplay: "02-1234-5678",
-  phoneHref: "tel:02-1234-5678",
+  phoneDisplay: "010-7748-4644",
+  phoneHref: "tel:010-7748-4644",
   kakaoUrl: "https://pf.kakao.com/_xxxxxxx",
   email: "info@certorecruiting.co.kr",
 
@@ -23,11 +23,11 @@ window.CERTO_CONFIG = {
   businessRegNo: "000-00-00000",
   address: "서울특별시 강남구 테헤란로 000, 0층",
 
-  // 상담 폼 전송 설정
-  // formEndpoint 를 채우면 실제 폼 제출 시 해당 URL로 데이터가 전송됩니다.
-  // (예: Formspree, Google Apps Script Web App, 자체 API 등)
-  // 비워두면 데모 모드로 동작하며 완료 메시지만 표시됩니다.
-  formEndpoint: "",
+  // 상담 폼 전송 설정 (Formspree)
+  // https://formspree.io 에서 폼을 만든 뒤 발급받는 Form ID를 아래 형식으로 채워주세요.
+  // 예) Form ID가 "mzbqwxyz" 라면: "https://formspree.io/f/mzbqwxyz"
+  // 비워두면 데모 모드로 동작하며 완료 메시지만 표시되고 실제 전송은 되지 않습니다.
+  formEndpoint: "https://formspree.io/f/xnpqgyoz",
 
   // 서비스 비용 문구 — 정책이 바뀌면 이 값만 수정하면 됩니다.
   pricing: {

@@ -144,11 +144,22 @@
         submitBtn.textContent = "전송 중...";
         fetch(CFG.formEndpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
           body: JSON.stringify(payload),
         })
-          .then(function () { showSuccess(); })
-          .catch(function () { showSuccess(); })
+          .then(function (res) {
+            if (res.ok) {
+              showSuccess();
+            } else {
+              alert("문의 접수 중 오류가 발생했습니다. 전화 또는 카카오톡으로 문의해 주세요.");
+            }
+          })
+          .catch(function () {
+            alert("문의 접수 중 오류가 발생했습니다. 전화 또는 카카오톡으로 문의해 주세요.");
+          })
           .finally(function () {
             submitBtn.disabled = false;
             submitBtn.textContent = "무료 채용 상담 신청";
