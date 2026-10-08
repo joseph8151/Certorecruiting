@@ -22,9 +22,9 @@
   --header-h: 80px;
   --mobile-cta-h: 60px;
 
-  --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+  --font: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
     "Malgun Gothic", "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+  --font-serif: var(--font);
 }
 
 * { box-sizing: border-box; }
@@ -255,7 +255,7 @@ section[id] { scroll-margin-top: var(--header-h); }
 .service-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 @media (min-width: 760px) { .service-list { grid-template-columns: repeat(3, 1fr); } }
 .service-item { background: var(--bg); padding: 36px 30px; }
-.service-num { display: block; font-family: var(--font-serif); font-style: italic; font-size: 1.5rem; font-weight: 700; color: var(--accent-deep); letter-spacing: 0; margin-bottom: 14px; }
+.service-num { display: block; font-size: 1.4rem; font-weight: 900; color: var(--accent-deep); letter-spacing: -0.02em; margin-bottom: 14px; }
 .service-icon { width: 44px; height: 44px; border-radius: 8px; background: rgba(76,107,130,0.1); color: var(--navy); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
 .service-item h3 { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
 .service-item p { color: var(--muted); font-size: 0.94rem; font-weight: 500; }
@@ -292,7 +292,7 @@ section[id] { scroll-margin-top: var(--header-h); }
 .process-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 @media (min-width: 760px) { .process-list { grid-template-columns: repeat(4, 1fr); } }
 .process-list li { background: var(--bg); padding: 32px 26px; position: relative; }
-.process-num { display: block; font-family: var(--font-serif); font-style: italic; font-size: 2.3rem; font-weight: 700; color: #C9C1B2; line-height: 1; margin-bottom: 14px; }
+.process-num { display: block; font-size: 2.1rem; font-weight: 900; color: #C9C1B2; letter-spacing: -0.02em; line-height: 1; margin-bottom: 14px; }
 .process-icon { width: 38px; height: 38px; color: var(--accent); margin-bottom: 14px; }
 .process-list h3 { font-family: var(--font-serif); font-size: 1.08rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .process-list p { color: var(--muted); font-size: 0.91rem; font-weight: 500; }
