@@ -29,6 +29,6 @@ window.CERTO_CONFIG = {
   // 교체하면 됩니다. (예: Form ID가 "mzbqwxyz" 라면 "https://formspree.io/f/mzbqwxyz")
   // YOUR_FORM_ID 상태로 비워두면 데모 모드로 동작하며 완료 메시지만 표시되고
   // 실제 전송은 되지 않습니다.
-  employerFormEndpoint: "https://formspree.io/f/YOUR_FORM_ID",
-  candidateFormEndpoint: "https://formspree.io/f/YOUR_FORM_ID",
+  employerFormEndpoint: "https://formspree.io/f/xnpqgyoz",
+  candidateFormEndpoint: "https://formspree.io/f/xnpqgyoz",
 };
