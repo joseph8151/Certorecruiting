@@ -4,27 +4,10 @@
   var CFG = window.CERTO_CONFIG || {};
 
   /* ---------- config → DOM 자동 반영 ---------- */
-  function getByPath(obj, path) {
-    return path.split(".").reduce(function (acc, key) {
-      return acc && acc[key] !== undefined ? acc[key] : undefined;
-    }, obj);
-  }
-
   function applyConfig() {
     document.querySelectorAll("[data-cfg]").forEach(function (el) {
-      var value = getByPath(CFG, el.getAttribute("data-cfg"));
+      var value = CFG[el.getAttribute("data-cfg")];
       if (value !== undefined) el.textContent = value;
-    });
-
-    document.querySelectorAll("[data-cfg-href]").forEach(function (el) {
-      var key = el.getAttribute("data-cfg-href");
-      var value;
-      if (key === "mailtoEmail") {
-        value = "mailto:" + (CFG.email || "");
-      } else {
-        value = getByPath(CFG, key);
-      }
-      if (value) el.setAttribute("href", value);
     });
   }
 
@@ -61,31 +44,11 @@
     }
 
     toggle.addEventListener("click", function () {
-      var isOpen = nav.classList.contains("is-open");
-      isOpen ? close() : open();
+      nav.classList.contains("is-open") ? close() : open();
     });
     scrim.addEventListener("click", close);
     nav.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", close);
-    });
-  }
-
-  /* ---------- FAQ 아코디언 ---------- */
-  function initFaq() {
-    document.querySelectorAll(".faq-item").forEach(function (item) {
-      var btn = item.querySelector(".faq-question");
-      if (!btn) return;
-      btn.addEventListener("click", function () {
-        var isOpen = item.classList.contains("is-open");
-        document.querySelectorAll(".faq-item.is-open").forEach(function (other) {
-          if (other !== item) {
-            other.classList.remove("is-open");
-            other.querySelector(".faq-question").setAttribute("aria-expanded", "false");
-          }
-        });
-        item.classList.toggle("is-open", !isOpen);
-        btn.setAttribute("aria-expanded", String(!isOpen));
-      });
     });
   }
 
@@ -114,24 +77,35 @@
     items.forEach(function (el) { observer.observe(el); });
   }
 
-  /* ---------- 상담 신청 폼 ---------- */
-  function initConsultForm() {
-    var form = document.getElementById("consult-form");
-    var success = document.getElementById("consult-success");
-    var submitBtn = document.getElementById("consult-submit");
+  /* ---------- 긴급 채용 CTA: 채용형태를 "긴급 대체"로 미리 선택 ---------- */
+  function initUrgentCta() {
+    var cta = document.getElementById("urgent-cta");
+    var employmentType = document.getElementById("employmentType");
+    var urgency = document.getElementById("urgency");
+    if (!cta || !employmentType) return;
+    cta.addEventListener("click", function () {
+      employmentType.value = "긴급 대체";
+      if (urgency) urgency.value = "즉시";
+    });
+  }
+
+  /* ---------- Formspree 폼 제출 공통 처리 ---------- */
+  function setupForm(formId, successId, endpoint, extraValidate) {
+    var form = document.getElementById(formId);
+    var success = document.getElementById(successId);
     if (!form || !success) return;
+    var submitBtn = form.querySelector(".btn-submit");
+    var defaultLabel = submitBtn ? submitBtn.textContent : "";
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+
+      if (extraValidate && !extraValidate()) return;
 
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
-
-      var formData = new FormData(form);
-      var payload = {};
-      formData.forEach(function (value, key) { payload[key] = value; });
 
       function showSuccess() {
         form.hidden = true;
@@ -139,35 +113,71 @@
         success.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
-      if (CFG.formEndpoint) {
+      var isPlaceholder = !endpoint || /YOUR_FORM_ID/.test(endpoint);
+      if (isPlaceholder) {
+        // Formspree 주소가 아직 설정되지 않음 — 데모 모드로 완료 화면만 표시
+        showSuccess();
+        return;
+      }
+
+      var formData = new FormData(form);
+
+      if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = "전송 중...";
-        fetch(CFG.formEndpoint, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) {
-            if (res.ok) {
-              showSuccess();
-            } else {
-              alert("문의 접수 중 오류가 발생했습니다. 전화 또는 카카오톡으로 문의해 주세요.");
-            }
-          })
-          .catch(function () {
-            alert("문의 접수 중 오류가 발생했습니다. 전화 또는 카카오톡으로 문의해 주세요.");
-          })
-          .finally(function () {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "무료 채용 상담 신청";
-          });
-      } else {
-        showSuccess();
       }
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: formData,
+      })
+        .then(function (res) {
+          if (res.ok) {
+            showSuccess();
+          } else {
+            alert("접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+          }
+        })
+        .catch(function () {
+          alert("접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = defaultLabel;
+          }
+        });
     });
+  }
+
+  function initEmployerForm() {
+    var email = document.getElementById("email");
+    var phone = document.getElementById("phone");
+    var hint = document.getElementById("contact-hint");
+
+    function validateContact() {
+      var hasContact = (email && email.value.trim()) || (phone && phone.value.trim());
+      if (!hasContact) {
+        if (hint) {
+          hint.classList.add("form-hint-error");
+          hint.textContent = "이메일 또는 전화번호(카카오톡) 중 하나는 꼭 입력해 주세요.";
+        }
+        if (phone) phone.focus();
+        return false;
+      }
+      if (hint) {
+        hint.classList.remove("form-hint-error");
+        hint.textContent = "이메일 또는 전화번호(카카오톡) 중 한 가지는 꼭 남겨주세요.";
+      }
+      return true;
+    }
+
+    setupForm("employer-form", "employer-success", CFG.employerFormEndpoint, validateContact);
+  }
+
+  function initCandidateForm() {
+    setupForm("candidate-form-el", "candidate-success", CFG.candidateFormEndpoint);
   }
 
   function initFooterYear() {
@@ -179,9 +189,10 @@
     applyConfig();
     initHeaderScroll();
     initMobileNav();
-    initFaq();
     initFadeIn();
-    initConsultForm();
+    initUrgentCta();
+    initEmployerForm();
+    initCandidateForm();
     initFooterYear();
   });
 })();
