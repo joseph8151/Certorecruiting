@@ -9,6 +9,11 @@
       var value = CFG[el.getAttribute("data-cfg")];
       if (value !== undefined) el.textContent = value;
     });
+    document.querySelectorAll("[data-cfg-href]").forEach(function (el) {
+      var key = el.getAttribute("data-cfg-href");
+      var value = key === "mailtoEmail" ? "mailto:" + (CFG.email || "") : CFG[key];
+      if (value) el.setAttribute("href", value);
+    });
   }
 
   /* ---------- 헤더: 스크롤 시 고정 스타일 ---------- */

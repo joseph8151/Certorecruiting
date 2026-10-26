@@ -13,14 +13,22 @@ window.CERTO_CONFIG = {
   // 연락처 (실제 운영 정보로 교체하세요)
   phoneDisplay: "010-7748-4644",
   phoneHref: "tel:010-7748-4644",
-  kakaoUrl: "https://pf.kakao.com/_xxxxxxx",
-  email: "info@certorecruiting.co.kr",
+  kakaoUrl: "[카카오톡 채널 URL]",
+  email: "[이메일 주소]",
+  blogUrl: "[네이버 블로그 URL]",
+  // 폼 제출 후 안내할 예상 회신 기간 (영업일 기준)
+  replyDays: "[N]",
 
-  // 사업자 정보 (footer 표기용)
-  companyLegalName: "체르토 리크루팅",
-  ceoName: "홍길동",
-  businessRegNo: "000-00-00000",
-  address: "서울특별시 강남구 테헤란로 000, 0층",
+  // 사업자 정보 (footer 표기용) — 사업자등록증 기준
+  // 서비스 브랜드명(체르토 리크루팅)과 등록 상호(체르토 드라이브)가 달라
+  // 전자상거래법 표시 의무에 맞춰 함께 표기합니다.
+  companyLegalName: "체르토 드라이브",
+  ceoName: "김형기",
+  businessRegNo: "654-60-00645",
+  address: "서울특별시 서초구 강남대로8길 39-26, 2층 A9호 (양재동)",
+  // 유료직업소개사업 등록번호: 제출된 사업자등록증의 등록 종목에 직업소개업이
+  // 없어 비워둡니다. 별도로 등록하신 번호가 있으면 알려주세요.
+  jobPlacementRegNo: "[유료직업소개사업 등록번호]",
 
   // 상담 폼 전송 설정 (Formspree)
   // ------------------------------------------------------------------
