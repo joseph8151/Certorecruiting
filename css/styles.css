@@ -5,8 +5,8 @@
    ========================================================= */
 
 :root {
-  --navy: #0F2238;
-  --navy-2: #16314C;
+  --navy: #0A1A2E;
+  --navy-2: #122940;
   --charcoal: #2B2B2E;
   --text: #1C1C1E;
   --muted: #53524C;
@@ -15,8 +15,8 @@
   --border: #E3DED3;
   --white: #FFFFFF;
   /* Single point accent, per the renewal brief: champagne gold. */
-  --gold: #B08D57;
-  --gold-light: #D9C38A;
+  --gold: #BC9657;
+  --gold-light: #DFC890;
   /* Functional (non-decorative) state color for form validation only. */
   --error: #B3261E;
 
@@ -149,9 +149,10 @@ section[id] { scroll-margin-top: var(--header-h); }
   html { scroll-behavior: auto; }
 }
 
-/* ---------- Hero ---------- */
-.hero { padding: calc(var(--header-h) + 56px) 0 64px; background: var(--bg); }
-.hero-inner { display: grid; gap: 48px; }
+/* ---------- Hero: text column + full-bleed photo on desktop ---------- */
+.hero { padding: calc(var(--header-h) + 40px) 0 0; background: var(--bg); overflow: hidden; }
+.hero-grid { max-width: var(--container); margin: 0 auto; padding: 0 20px 56px; display: grid; gap: 48px; }
+.hero-copy-wrap { display: flex; align-items: center; }
 main { counter-reset: chapter; }
 .eyebrow {
   position: relative;
@@ -248,10 +249,27 @@ main { counter-reset: chapter; }
 .profile-stats span { display: block; font-size: 0.72rem; color: #AEBBC7; margin-top: 4px; }
 
 @media (min-width: 960px) {
-  .hero-inner { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
-  .hero { padding-top: calc(var(--header-h) + 90px); padding-bottom: 100px; }
-  .hero-visual { margin: 0; padding-bottom: 64px; }
-  .profile-card { left: -24px; transform: none; }
+  .hero { padding-top: var(--header-h); }
+  .hero-grid {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: minmax(0, calc((100vw - var(--container)) / 2 + var(--container) * 0.52)) 1fr;
+    align-items: stretch;
+    min-height: calc(100vh - var(--header-h));
+    max-height: 860px;
+    gap: 0;
+  }
+  .hero-copy-wrap {
+    padding-left: max(20px, calc((100vw - var(--container)) / 2 + 20px));
+    padding-right: 56px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  .hero-visual { position: relative; max-width: none; margin: 0; padding-bottom: 0; height: 100%; min-height: 520px; }
+  .hero-photo { position: absolute; inset: 0; height: 100%; width: 100%; aspect-ratio: auto; border-radius: 0; box-shadow: none; }
+  .hero-visual .photo::before { top: 0; left: 0; bottom: 0; right: auto; width: 3px; height: auto; }
+  .profile-card { left: 48px; right: auto; bottom: 48px; transform: none; }
 }
 
 /* ---------- Sections ---------- */
@@ -270,19 +288,18 @@ main { counter-reset: chapter; }
 .section-desc { margin-top: 16px; color: var(--muted); font-size: 1.02rem; font-weight: 500; }
 .section-cta { text-align: center; margin-top: 40px; }
 
-/* ---------- Service list (editorial numbered rows, not card-grid) ---------- */
-.service-list { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-@media (min-width: 760px) { .service-list { grid-template-columns: repeat(3, 1fr); } }
+/* ---------- Service list: open, thin top rule per item (no boxed grid) ---------- */
+.service-list { display: grid; gap: 40px; }
+@media (min-width: 760px) { .service-list { grid-template-columns: repeat(3, 1fr); gap: 56px; } }
 .service-item {
-  background: var(--bg);
-  padding: 36px 30px;
+  padding: 24px 0 0;
+  border-top: 2px solid var(--navy);
   position: relative;
-  transition: transform .2s ease, box-shadow .2s ease;
+  transition: border-color .2s ease, transform .2s ease;
 }
 .service-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(15,34,56,0.12);
-  z-index: 1;
+  border-color: var(--gold);
+  transform: translateY(-3px);
 }
 .service-num { display: block; font-family: var(--font-display-en); font-style: italic; font-size: 1.6rem; font-weight: 700; color: var(--gold); letter-spacing: 0; margin-bottom: 14px; }
 .service-icon { width: 40px; height: 40px; border-radius: 50%; background: transparent; border: 1px solid var(--border); color: var(--navy); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
