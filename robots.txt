@@ -1,4 +1,44 @@
 User-agent: *
 Allow: /
 
+# AI 답변엔진(ChatGPT, Perplexity, Google AI Overview 등) 크롤러도
+# 명시적으로 허용 — 기본값(User-agent: *)으로 이미 허용되지만
+# 각 크롤러가 자신의 이름으로 된 규칙을 우선 확인하는 경우가 있어
+# 명시적으로 추가합니다.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://certorecruiting.site/sitemap.xml
